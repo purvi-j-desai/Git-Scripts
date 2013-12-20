@@ -1,0 +1,32 @@
+#!/bin/bash
+
+git st &> /dev/null
+
+if [ "$?" != "0" ]; then
+    printf "\n\033[1;31mCurrent directory does not have a git repo\033[0m\nNothing to do\n\n"
+    exit 1
+fi
+
+CURRENT_BRANCH=`git branch  | grep ^* | awk '{print $2}'`
+
+printf "\nAre to sure you want to push branch \033[1;35m$CURRENT_BRANCH\033[0m ? (yes/no) : "
+read
+
+if [ "$REPLY" != "yes" ]; then
+	printf "\nOperation not initiated ...\n\n"
+	exit 1
+fi
+
+printf "Rebasing your changes ...\n"
+git pull --rebase
+
+printf "\nContinue push ? (yes/no) : "
+read
+
+if [ "$REPLY" != "yes" ]; then
+	printf "\nOperation not initiated ...\n\n"
+	exit 1
+fi
+
+printf "Pushing changes to branch \033[1;35m$CURRENT_BRANCH\033[0m ...\n"
+git push origin $CURRENT_BRANCH

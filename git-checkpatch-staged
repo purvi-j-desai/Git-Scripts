@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#git diff --cached --no-ext-diff  | /home/$USER/scripts/checkpatch.pl - --no-tree | less
+git diff --cached --no-ext-diff  | /home/$USER/scripts/checkpatch.pl - --no-tree --emacs --summary-file

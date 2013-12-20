@@ -1,0 +1,19 @@
+#!/bin/bash
+
+LATEST_ID=`git log | grep commit | sed -n 2p | awk '{print $2}'`
+PATCH_NAME=`git format-patch $LATEST_ID`
+
+echo
+echo $PATCH_NAME | grep -i "\.patch" > /dev/null
+
+if [ "$?" != "0" ]; then
+    echo Unable to create patch. Sorry
+fi
+
+echo -e Generated file $PATCH_NAME
+#echo Please run ..
+cat $PATCH_NAME | xclip -sel clip
+#printf  "\033[0;32mcat $PATCH_NAME | xclip\033[0m\n"
+printf "\033[0;32mHave copied the patch to clipboard\033[0m\n"
+echo
+

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+git format-patch HEAD^ --stdout | xclip -sel clip
+printf "\033[0;32mHave copied the patch to clipboard. No patch file was created\033[0m\n"
+echo
+

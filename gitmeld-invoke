@@ -1,0 +1,34 @@
+#!/usr/bin/perl -w
+
+use File::Basename;
+
+$LEFT_FILE=$ARGV[0];
+$RIGHT_FILE=$ARGV[1];
+
+
+($name,undef,$suffix) = fileparse($LEFT_FILE, '\..*');
+
+# Please put a forward slash (/) between two patterns
+@EXCLUSION_PATTERNS= (".vcproj", ".sln", ".pbxproj" );
+
+foreach (@EXCLUSION_PATTERNS) {
+#    print "$_ <==> $name\n";
+    # does the pattern have a dot (.)
+    $dot_index = index($_, '.');
+#    print "dot_index = $dot_index\n";
+    if ($dot_index >= 0) {
+#	print '"$_" eq "$suffix"';
+	if ( "$_" eq "$suffix" ) {
+	    print "Ignore: $LEFT_FILE\n";
+	    exit 0;
+	}
+    }
+    else {
+	if("$_" eq "$name") {
+	    print "Ignore: $LEFT_FILE\n";
+	    exit 0;
+	}
+    }
+}
+    
+`meld $LEFT_FILE $RIGHT_FILE &> /dev/null` 
